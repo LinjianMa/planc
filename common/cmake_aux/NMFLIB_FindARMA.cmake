@@ -51,6 +51,8 @@ find_package(LAPACK)
 
 message(STATUS "    BLAS_FOUND = ${BLAS_FOUND}"    )
 message(STATUS "  LAPACK_FOUND = ${LAPACK_FOUND}"  )
+message(STATUS "  BLAS_LIBRARIES = ${BLAS_LIBRARIES}"  )
+message(STATUS "  LAPACK_LIBRARIES = ${LAPACK_LIBRARIES}"  )
 
 set(NMFLIB_USE_BLAS true)
 set(NMFLIB_USE_LAPACK true)

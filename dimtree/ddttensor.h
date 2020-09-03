@@ -3,7 +3,8 @@
 #ifndef DIMTREE_DDTTENSOR_H_
 #define DIMTREE_DDTTENSOR_H_
 
-#include <cblas.h>
+// #include <cblas.h>
+#include <mkl.h>
 #include <math.h>
 #include <omp.h>
 #include <stdio.h>

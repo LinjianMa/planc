@@ -38,14 +38,14 @@ class DistNTF {
   static const int kprimeoffset = 17;
 
   void printConfig() {
-    std::cout << "a::" << this->m_ntfalgo << "::i::" << this->m_Afile_name
-              << "::k::" << this->m_k << "::dims::" << this->m_global_dims
-              << "::t::" << this->m_num_it
-              << "::proc_grids::" << this->m_proc_grids
-              << "::error::" << this->m_compute_error
-              << "::regs::" << this->m_regs
-              << "::num_k_blocks::" << m_num_k_blocks
-              << "::dim_tree::" << m_enable_dim_tree << std::endl;
+    std::cout << "[a]" << this->m_ntfalgo << ",   [input]" << this->m_Afile_name
+              << ",   [rank]" << this->m_k << ",   [dims]" << this->m_global_dims
+              << ",   [num_iteration]" << this->m_num_it
+              << ",   [proc_grids]" << this->m_proc_grids
+              << ",   [error]" << this->m_compute_error
+              << ",   [regs]" << this->m_regs
+              << ",   [num_k_blocks]" << m_num_k_blocks
+              << ",   [dim_tree]" << m_enable_dim_tree << std::endl;
   }
 
   template <class NTFTYPE>
@@ -54,16 +54,19 @@ class DistNTF {
     std::string rand_prefix("rand_");
     planc::NTFMPICommunicator mpicomm(this->m_argc, this->m_argv,
                                       this->m_proc_grids);
+    if (mpicomm.rank() == 0) {
+      printConfig();
+    }
     mpicomm.printConfig();
     planc::DistNTFIO dio(mpicomm, A);
     dio.readInput(m_Afile_name, this->m_global_dims, this->m_proc_grids,
                     this->m_k, this->m_sparsity);
     this->m_global_dims = dio.global_dims();
-    memusage(mpicomm.rank(), "after input io");
-    INFO << mpicomm.rank()
-         << "::Completed generating tensor A=" << A.dimensions()
-         << "::start indices::" << A.global_idx()
-         << "::global dims::" << this->m_global_dims << std::endl;
+    memusage(mpicomm.rank(), "[after input io memory usage is]:");
+    INFO << "[mpi rank]: " << mpicomm.rank()
+         << ",  [Completed generating tensor A dimension]: " << A.dimensions()
+         << ",  [start indices]:  " << A.global_idx()
+         << ",  [global dims]:   " << this->m_global_dims << std::endl;
 #ifdef DISTNTF_VERBOSE
     A.print();
 #endif
@@ -147,7 +150,7 @@ class DistNTF {
     this->m_compute_error = pc.compute_error();
     this->m_enable_dim_tree = pc.dim_tree();
     this->m_outputfile_name = pc.output_file_name();
-    printConfig();
+    // printConfig();
     switch (this->m_ntfalgo) {
       case MU:
         callDistNTF<DistNTFMU>();

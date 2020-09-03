@@ -369,10 +369,10 @@ class DistAUNTF {
     MPI_Allreduce(&temp, &mintemp, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
     MPI_Allreduce(&temp, &sumtemp, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
     PRINTROOT(reportstring  // << "::dims::" << this->m_global_dims.t()
-              << "::k::" << this->m_low_rank_k << "::SIZE::" << MPI_SIZE
-              << "::algo::" << this->m_updalgo << "::root::" << temp
-              << "::min::" << mintemp << "::avg::" << (sumtemp) / (MPI_SIZE)
-              << "::max::" << maxtemp);
+              << "  [rank]: " << this->m_low_rank_k << "  [MPI_SIZE]: " << MPI_SIZE
+              << "  [algorithm]: " << this->m_updalgo << "  [root]: " << temp
+              << "  [min]: " << mintemp << "  [avg]: " << (sumtemp) / (MPI_SIZE)
+              << "  [max]: " << maxtemp);
   }
 
   /**
@@ -661,17 +661,17 @@ class DistAUNTF {
         this->m_rel_error = temp_err;
         double iter_time = this->time_stats.compute_duration() +
                            this->time_stats.communication_duration();
-        PRINTROOT("Iter::" << this->m_current_it << "::k::"
-                           << this->m_low_rank_k << "::SIZE::" << MPI_SIZE
-                           << "::algo::" << this->m_updalgo << "::time::"
-                           << iter_time << "::relative_error::" << temp_err);
+        PRINTROOT("[Iteration]: " << this->m_current_it << "  [k]: "
+                           << this->m_low_rank_k << "  [SIZE]: " << MPI_SIZE
+                           << "  [algo]: " << this->m_updalgo << "  [time]: "
+                           << iter_time << "  [relative_error]: " << temp_err);
       }
       if (this->m_accelerated) {
         // there is a acceleration possible. call accelerate method
         // in the derived class.
         accelerate();
       }
-      PRINTROOT("completed it::" << this->m_current_it);
+      PRINTROOT("[completed iteration]:  " << this->m_current_it);
     }
     generateReport();
   }

@@ -3,11 +3,11 @@
 #ifndef NNLS_BPPNNLS_HPP_
 #define NNLS_BPPNNLS_HPP_
 
-#ifdef MKL_FOUND
+// #ifdef MKL_FOUND
 #include <mkl.h>
-#else
-#include <lapacke.h>
-#endif
+// #else
+// #include <lapacke.h>
+// #endif
 #include <assert.h>
 #include "ActiveSetNNLS.h"
 #include "nnls.hpp"

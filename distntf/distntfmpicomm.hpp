@@ -35,14 +35,14 @@ class NTFMPICommunicator {
       for (unsigned int i = 0; i < MPI_CART_DIMS; i++) {
         current_slice_comm = this->m_slice_comm[i];
         MPI_Comm_size(current_slice_comm, &slice_size);
-        INFO << "Numprocs in slice " << i << "::" << slice_size << std::endl;
+        INFO << "Numprocs in slice  [" << i << "]:   " << slice_size << std::endl;
       }
       int fiber_size;
       MPI_Comm current_fiber_comm;
       for (unsigned int i = 0; i < MPI_CART_DIMS; i++) {
         current_fiber_comm = this->m_fiber_comm[i];
         MPI_Comm_size(current_fiber_comm, &fiber_size);
-        INFO << "Numprocs in fiber " << i << "::" << fiber_size << std::endl;
+        INFO << "Numprocs in fiber  [" << i << "]:   " << fiber_size << std::endl;
       }
     }
     UVEC cooprint(MPI_CART_DIMS);
@@ -53,11 +53,11 @@ class NTFMPICommunicator {
     MPI_Barrier(MPI_COMM_WORLD);
     for (int i = 0; i < size(); i++) {
       if (i == rank()) {
-        INFO << "slice ranks of rank::" << m_global_rank
-             << "::" << m_slice_ranks << std::endl;
-        INFO << "fiber ranks of rank::" << m_global_rank
-             << "::" << m_fiber_ranks << std::endl;
-        INFO << "coordinates::" << m_global_rank << "::" << cooprint
+        INFO << "slice ranks of rank [" << m_global_rank
+             << "]:   " << m_slice_ranks << std::endl;
+        INFO << "fiber ranks of rank [" << m_global_rank
+             << "]:   " << m_fiber_ranks << std::endl;
+        INFO << "coordinates [" << m_global_rank << "]:   " << cooprint
              << std::endl;
       }
       MPI_Barrier(MPI_COMM_WORLD);

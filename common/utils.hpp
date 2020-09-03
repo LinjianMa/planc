@@ -11,11 +11,11 @@
 #include <typeinfo>
 #include <vector>
 #include "common/utils.h"
-#ifdef MKL_FOUND
+// #ifdef MKL_FOUND
 #include <mkl.h>
-#else
-#include <cblas.h>
-#endif
+// #else
+// #include <cblas.h>
+// #endif
 
 static ULONG powersof10[16] = {1,
                                10,
